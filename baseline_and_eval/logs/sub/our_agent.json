@@ -1,0 +1,10 @@
+[
+  {
+    "molecule": "O=Cc1cn2c(nc3ccccc32)s1",
+    "json_results": {
+      "output": "O=C(O)c1cn2c(nc3ccccc32)s1"
+    },
+    "added_group": "carboxyl",
+    "removed_group": "aldehyde"
+  }
+]

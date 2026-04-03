@@ -242,10 +242,18 @@ class mol_opt_evaluater():
         scaffold_score = list()
         
         for i in range(len(tgt_mol_list)):
-            src_smiles, tgt_smiles = src_mol_list[i], tgt_mol_list[i]
+            src_smiles = src_mol_list[i]
+            tgt_smiles = tgt_mol_list[i]
+            # null/invalid = extraction failure, treated as failure case, not filtered; official scaffold_consistency needs to handle null/invalid (score 0 without crashing)
+            src_smiles = "" if src_smiles is None else (str(src_smiles).strip() if isinstance(src_smiles, str) else str(src_smiles).strip())
+            tgt_smiles = "" if tgt_smiles is None else (str(tgt_smiles).strip() if isinstance(tgt_smiles, str) else str(tgt_smiles).strip())
+            if not src_smiles or not tgt_smiles:
+                scaffold_score.append(0.0)
+                continue
             try:
                 src_mol, tgt_mol = Chem.MolFromSmiles(src_smiles), Chem.MolFromSmiles(tgt_smiles)
             except:
+                scaffold_score.append(0.0)
                 continue
             
             if src_mol == None or tgt_mol == None:
